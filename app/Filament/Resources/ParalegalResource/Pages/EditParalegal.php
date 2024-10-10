@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\ParalegalResource\Pages;
 
 use App\Filament\Resources\ParalegalResource;
-use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
 class EditParalegal extends EditRecord
@@ -15,5 +15,13 @@ class EditParalegal extends EditRecord
         return [
             // Actions\DeleteAction::make(),
         ];
+    }
+
+    public function getSaveFormAction(): Action
+    {
+        return Action::make('save')
+            ->label('Simpan')
+            ->submit('save')
+            ->keyBindings(['mod+s']);
     }
 }

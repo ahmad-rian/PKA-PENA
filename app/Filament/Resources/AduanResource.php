@@ -26,7 +26,6 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Actions\ExportAction;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Infolists\Components\Section;
-// use Filament\Tables\Actions\ExportBulkAction;
 use App\Filament\Resources\AduanResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AduanResource\RelationManagers;
@@ -54,59 +53,36 @@ class AduanResource extends Resource
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->label('Kode Kasus')
-
                             ->placeholder('Masukkan Kode Kasus'),
 
                         Select::make('jeniskasus')
                             ->required()
-                            ->multiple() // Membolehkan pemilihan beberapa opsi
+                            ->multiple()
                             ->label('Jenis Kasus')
-                            ->relationship('jeniskasus', 'jenis_kasus') // Relasi yang digunakan
+                            ->relationship('jeniskasus', 'jenis_kasus')
                             ->placeholder('Pilih Jenis Kasus')
-                            ->searchable() // Membolehkan pencarian dalam dropdown
+                            ->searchable()
                             ->options(function () {
-                                return \App\Models\JenisKasus::pluck('jenis_kasus', 'id')->toArray(); // Menampilkan semua opsi dari model
+                                return \App\Models\JenisKasus::pluck('jenis_kasus', 'id')->toArray();
                             }),
 
                         Select::make('jenislayanan')
                             ->required()
-                            ->multiple() // Membolehkan pemilihan beberapa opsi
-                            ->label('Jenis Layanan')
-                            ->relationship('jenislayanan', 'jenis_layanan') // Relasi yang digunakan
-                            ->placeholder('Pilih Layanan')
-                            ->searchable() // Membolehkan pencarian dalam dropdown
-                            ->options(function () {
-                                return \App\Models\Layanan::pluck('jenis_layanan', 'id')->toArray(); // Menampilkan semua opsi dari model
-                            }),
-
-
-                        // Select::make('jenislayanan')
-                        //     ->required()
-                        //     ->multiple()
-                        //     ->label('Jenis Layanan')
-                        //     ->relationship('jenislayanan', 'jenis_layanan')
-                        //     ->placeholder('Pilih Jenis Layanan')
-                        //     ->searchable(),
-
-                        /*
-                        Select::make('jenis_layanan')
-                            ->required()
                             ->multiple()
-                            ->label('Layanan')
-                            ->options(
-                                Layanan::all()->pluck('jenis_layanan', 'id')->toArray()
-                            )
-                            ->placeholder('Pilih Layanan'),
-                        */
+                            ->label('Jenis Layanan')
+                            ->relationship('jenislayanan', 'jenis_layanan')
+                            ->placeholder('Pilih Layanan')
+                            ->searchable()
+                            ->options(function () {
+                                return \App\Models\Layanan::pluck('jenis_layanan', 'id')->toArray();
+                            }),
 
                         Select::make('kanal_pengaduan')
                             ->required()
                             ->label('Kanal Pengaduan')
                             ->options([
                                 'NON ADUAN - LAPORAN MEDIA' => 'NON ADUAN - LAPORAN MEDIA',
-                                // 'NOTA DINAS' => 'NOTA DINAS',
                                 'PENGADUAN LANGSUNG' => 'PENGADUAN LANGSUNG',
-                                // 'SAPA 129 - GFORM' => 'SAPA 129 - GFORM',
                                 'SAPA 129 - HOTLINE WA' => 'SAPA 129 - HOTLINE WA',
                                 'SAPA 129 - TELEPON' => 'SAPA 129 - TELEPON',
                                 'SP4N LAPOR' => 'SP4N LAPOR',
@@ -208,53 +184,43 @@ class AduanResource extends Resource
                             ->placeholder('Masukkan Kronologi Singkat'),
 
                         Select::make('manajer_id')
-                            // ->required()
                             ->label('Manajer Kasus')
                             ->relationship('manajer', 'nama_mk')
                             ->placeholder('Pilih Manajer Kasus'),
 
                         Select::make('advokat_id')
-                            // ->required()
                             ->label('Advokat')
                             ->relationship('advokat', 'nama_advokat')
                             ->placeholder('Pilih Advokat'),
 
                         Select::make('peksos_id')
-                            // ->required()
                             ->label('Pekerja Sosial')
                             ->relationship('peksos', 'nama_peksos')
                             ->placeholder('Pilih Pekerja Sosial'),
 
                         Select::make('psikolog_id')
-                            // ->required()
                             ->label('Psikolog')
                             ->relationship('psikolog', 'nama_psikolog')
                             ->placeholder('Pilih Psikolog'),
 
                         Select::make('konselor_id')
-                            // ->required()
                             ->label('Konselor')
                             ->relationship('konselor', 'nama_konselor')
                             ->placeholder('Pilih Konselor'),
 
                         Select::make('paralegal_id')
-                            // ->required()
                             ->label('Paralegal')
                             ->relationship('paralegal', 'nama_paralegal')
                             ->placeholder('Pilih Paralegal'),
 
                     ])
                     ->columns(2),
-
-
-
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-
             ->recordTitleAttribute('jenis_kasus')
             ->columns([
                 Tables\Columns\TextColumn::make('kode_kasus')
@@ -278,18 +244,12 @@ class AduanResource extends Resource
                 Tables\Columns\TextColumn::make('jeniskasus.jenis_kasus')
                     ->label('Jenis Kasus')
                     ->formatStateUsing(function ($state) {
-                        return nl2br(htmlspecialchars($state)); // Menambahkan nl2br dan htmlspecialchars jika diperlukan
+                        return nl2br(htmlspecialchars($state));
                     })
-                    // ->getStateUsing(function ($record) {
-                    //     // Mengambil data dari relasi dan menggabungkannya dengan koma
-                    //     return $record->jeniskasus->pluck('jenis_kasus')->join(', ');
-                    // })
-                    ->html() // Menandakan bahwa kolom ini mengandung HTML
-                    ->searchable() // Menandakan bahwa kolom ini dapat dicari
-                    ->sortable() // Menandakan bahwa kolom ini dapat diurutkan
+                    ->html()
+                    ->searchable()
+                    ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
-
 
                 Tables\Columns\TextColumn::make('kanal_pengaduan')
                     ->label('Kanal Pengaduan')
@@ -360,8 +320,6 @@ class AduanResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-
-
             ])
             ->defaultSort('tanggal_masuk', 'desc')
             ->filters([
@@ -394,21 +352,16 @@ class AduanResource extends Resource
                         }
                         return $indicators;
                     }),
-
             ])
-
             ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make()->label('Lihat'),
+                Tables\Actions\EditAction::make()->label('Ubah'),
+                Tables\Actions\DeleteAction::make()->label('Hapus'),
             ])
-            // ->headerActions([
-            //     ExportAction::make()->exporter(AduanExporter::class)
-            // ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                    ExportBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()->label('Hapus Terpilih'),
+                    ExportBulkAction::make()->label('Ekspor Terpilih'),
                 ]),
             ]);
     }
@@ -416,14 +369,11 @@ class AduanResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // JeniskasusRelationManager::class,
-            // JenislayananRelationManager::class
             KorbanRelationManager::class,
             TerlaporRelationManager::class,
             PelaporRelationManager::class
         ];
     }
-
 
     public static function getPages(): array
     {

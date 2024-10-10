@@ -13,7 +13,12 @@ class ListLayanans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make(),
+            Actions\CreateAction::make()->label('Buat Baru'),
         ];
+    }
+
+    public function getTitle(): string
+    {
+        return 'Daftar Jenis Layanan';
     }
 }

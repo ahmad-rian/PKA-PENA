@@ -26,10 +26,10 @@ class Dashboard extends \Filament\Pages\Dashboard
             ->schema([
                 Section::make()
                     ->schema([
-                        DatePicker::make('startDate')
+                        DatePicker::make('tanggalMulai')
                             ->maxDate(fn(Get $get) => $get('endDate') ?: now())
                             ->reactive(), // Ensure it's reactive
-                        DatePicker::make('endDate')
+                        DatePicker::make('tanggalAkhir')
                             ->minDate(fn(Get $get) => $get('startDate') ?: now())
                             ->maxDate(now())
                             ->reactive(), // Ensure it's reactive

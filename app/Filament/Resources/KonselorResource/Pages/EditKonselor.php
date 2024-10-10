@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\KonselorResource\Pages;
 
 use App\Filament\Resources\KonselorResource;
-use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
 class EditKonselor extends EditRecord
@@ -15,5 +15,13 @@ class EditKonselor extends EditRecord
         return [
             // Actions\DeleteAction::make(),
         ];
+    }
+
+    public function getSaveFormAction(): Action
+    {
+        return Action::make('save')
+            ->label('Simpan')
+            ->submit('save')
+            ->keyBindings(['mod+s']);
     }
 }

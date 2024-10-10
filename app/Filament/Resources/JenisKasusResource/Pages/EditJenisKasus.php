@@ -3,7 +3,7 @@
 namespace App\Filament\Resources\JenisKasusResource\Pages;
 
 use App\Filament\Resources\JenisKasusResource;
-use Filament\Actions;
+use Filament\Actions\Action;
 use Filament\Resources\Pages\EditRecord;
 
 class EditJenisKasus extends EditRecord
@@ -15,5 +15,12 @@ class EditJenisKasus extends EditRecord
         return [
             // Actions\DeleteAction::make(),
         ];
+    }
+    public function getSaveFormAction(): Action
+    {
+        return Action::make('save')
+            ->label('Simpan')
+            ->submit('save')
+            ->keyBindings(['mod+s']);
     }
 }
